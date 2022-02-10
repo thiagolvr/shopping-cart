@@ -1,5 +1,6 @@
 const fatherOfItems = document.querySelector('.items');
 const cartItems = document.querySelector('.cart__items');
+const btn = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -62,6 +63,12 @@ for (let index = 0; index < buttonItem.length; index += 1) {
 }
 };
 
-window.onload = () => {
-  addOnClick();
+const clearCartItems = () => {
+  cartItems.innerText = '';
+};
+
+btn.addEventListener('click', clearCartItems);
+
+window.onload = async () => {
+  addOnClick(); 
 };
