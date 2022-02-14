@@ -19,16 +19,13 @@ function createCustomElement(element, className, innerText) {
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
-  
+  const replaceImgForHD = image.replace('-I.jpg', '-J.jpg');
+
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
+  section.appendChild(createProductImageElement(replaceImgForHD));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
   return section;
-}
-
-function getSkuFromProductItem(item) {
-  return item.querySelector('span.item__sku').innerText;
 }
 
 function cartItemClickListener(event) {
@@ -55,15 +52,12 @@ const itemToCart = async (event) => {
   const info = await fetchItem(idTarget);
   cartItems.appendChild(createCartItemElement(info));
   saveCartItems(cartItems.innerHTML); 
-  };
+};
 
-  // 
-const addOnClick = async () => {
+const itemAppearsOnScreen = async () => {
   await renderProducts();
   const buttonItem = document.getElementsByClassName('item__add');
-for (let index = 0; index < buttonItem.length; index += 1) {
-  buttonItem[index].addEventListener('click', itemToCart);
-}
+  Array.from(buttonItem).forEach((item) => item.addEventListener('click', itemToCart));
 };
 
 const clearCartItems = () => {
@@ -75,13 +69,20 @@ buttonClearCart.addEventListener('click', clearCartItems);
 const alsoRemoveStoragedItemOnClick = () => {
   cartItems.innerHTML = getSavedCartItems();
   const cartItem = document.querySelectorAll('.cart__item');
-  for (let index = 0; index < cartItem.length; index += 1) {
-    cartItem[index].addEventListener('click', cartItemClickListener);
-   }
+  cartItem.forEach((item) => item.addEventListener('click', cartItemClickListener));
+};
+
+const textLoading = async () => {
+  const div = document.createElement('div');
+  div.className = 'loading';
+  div.innerText = 'Carregando...';
+  fatherOfItems.appendChild(div);
+  await itemAppearsOnScreen();
+  fatherOfItems.removeChild(div);
 };
 
 window.onload = () => {
-  addOnClick(); 
+  textLoading();
   getSavedCartItems();
   alsoRemoveStoragedItemOnClick();
 };
