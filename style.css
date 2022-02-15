@@ -120,6 +120,7 @@ body {
 
 .item .item__add {
   background-color: rgb(5, 52, 219);
+  border-radius: 10px;
   border: 0;
   cursor: pointer;
   margin: 0;
@@ -136,8 +137,33 @@ body {
 }
 
 .cart .cart__items {
+  padding: 25px;
   height: 500px;
   overflow-y: scroll;
+  font-weight: bold;
+}
+
+li {
+  padding: 5px
+}
+
+.loading {
+  margin-top: 170px;
+  padding-top: 52px;
+  padding-left: 16px;
+  border: 2px solid;
+  border-color: rgb(70, 133, 70);
+  font-size: small;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  to {
+    transform: scale(1.5)
+  }
 }
 
 .empty-cart {
